@@ -1,5 +1,7 @@
 import psycopg2
 import os
+from .outbox import Outbox
+outbox = Outbox()
 
 
 class Postgres:
@@ -26,3 +28,6 @@ class Postgres:
         if self.cur:
             self.cur.close()
             self.conn.close()
+
+    def insert_data_in_outbox(self, rawdata):
+        print(outbox.get_insert_sql(rawdata))
