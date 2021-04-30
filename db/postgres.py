@@ -9,11 +9,11 @@ class Postgres:
 
     def connect(self):
         self.conn = psycopg2.connect(
-            host=os.environ.get("HOST"),
-            port=os.environ.get("PORT"),
-            database=os.environ.get("DATABASE"),
-            user=os.environ.get("USER"),
-            password=os.environ.get("PASSWORD")
+            host=os.environ.get("AVHOST"),
+            port=os.environ.get("AVPORT"),
+            database=os.environ.get("AVDATABASE"),
+            user=os.environ.get("AVUSER"),
+            password=os.environ.get("AVPASSWORD")
         )
         self.cur = self.conn.cursor()
         print("connected to db")

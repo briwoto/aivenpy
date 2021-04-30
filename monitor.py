@@ -1,12 +1,13 @@
 import requests
 import re
 import os
-base_url = os.environ.get("BASE_URL")
+from db.postgres import Postgres
+postgres = Postgres()
+base_url = os.environ.get("AVBASE_URL")
 
 
 def monitor():
-    # from db.postgres import connect
-    # connect()
+    postgres.connect()
     btn = "<button.*>?STAY UPDATED</button>"
     try:
         res = requests.get(base_url, timeout=5)
@@ -18,6 +19,7 @@ def monitor():
         }
         print(stats)
     except Exception as e:
+        print("Unable to Connect to base url. Exception Occured")
         print(str(e))
 
 
