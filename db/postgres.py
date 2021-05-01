@@ -1,6 +1,6 @@
 import psycopg2
 import os
-from .outbox import Outbox
+from db.outbox import Outbox
 outbox = Outbox()
 
 
@@ -21,13 +21,16 @@ class Postgres:
         print("connected to db")
         self.cur.execute('SELECT version()')
         print(self.cur.fetchone())
-        return self.cur
+        return self.conn, self.cur
 
     def close_connection(self):
-        print('cursor is')
         if self.cur:
             self.cur.close()
             self.conn.close()
 
-    def insert_data_in_outbox(self, rawdata):
-        print(outbox.get_insert_sql(rawdata))
+    def run_sql(self, sql_str, val):
+        con, cur = self.connect()
+        cur.execute(sql_str, val)
+        con.commit()
+        self.close_connection()
+        print('Data inserted')

@@ -131,3 +131,5 @@ dmypy.json
 .idea/
 
 pyvenv.cfg
+
+*/**/.DS_Store

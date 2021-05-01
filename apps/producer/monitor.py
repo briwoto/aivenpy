@@ -18,7 +18,7 @@ class SiteMonitor:
                     "site_id": 1,
                     "status_code": res.status_code,
                     "response_time": res.elapsed.total_seconds(),
-                    "has_button": has_button,
+                    "has_regexp": has_button,
                     "created": str(datetime.datetime.now()),
                     "modified": str(datetime.datetime.now()),
                     "comments": ""
