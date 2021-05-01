@@ -25,7 +25,6 @@ class SiteMonitor:
                 }
             }
             return data
-            # return self.format_stats_for_outbox(data)
         except Exception as e:
             print("Unable to Connect to base_url. Exception Occured")
             print(str(e))
