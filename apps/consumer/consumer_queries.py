@@ -12,4 +12,6 @@ def add_site_monitor_data_to_db(data):
         "has_regexp": val["has_regexp"],
         "comments": val["comments"]
     }
-    talker.insert_data('site_monitor', query_data)
+    column_names = ','.join(query_data.keys())
+    ar_values = list(map(lambda x: x if len(str(x)) else None, query_data.values()))
+    talker.insert_data('site_monitor', column_names, ar_values)
