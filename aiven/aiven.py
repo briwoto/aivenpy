@@ -1,4 +1,4 @@
-from apps.producer.monitor import SiteMonitor
+from apps.site_monitor.monitor import SiteMonitor
 from apps.producer.kafka_producer import Kf
 mon = SiteMonitor()
 kf = Kf()
@@ -13,4 +13,5 @@ def aiven():
     print("Data sent")
 
 
-aiven()
+if __name__ == '__main__':
+    aiven()

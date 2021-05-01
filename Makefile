@@ -1,5 +1,5 @@
-run_producer:
-	PYTHONPATH="apps:$(PYTHONPATH)" python apps/producer/aiven.py
+run_aiven:
+	PYTHONPATH="apps:db:aiven:$(PYTHONPATH)" python aiven/aiven.py
 
 start_consumer:
-	PYTHONPATH="apps:$(PYTHONPATH)" python apps/consumer/kafka_consumer.py
+	PYTHONPATH="apps:db:aiven:$(PYTHONPATH)" python apps/consumer/kafka_consumer.py

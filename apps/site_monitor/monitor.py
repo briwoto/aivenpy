@@ -30,15 +30,3 @@ class SiteMonitor:
             print("Unable to Connect to base_url. Exception Occured")
             print(str(e))
             return None
-
-    # def format_stats_for_outbox(self, stats):
-    #     row = {
-    #         "topic": self.topic_name,
-    #         "item_key": self.item_key,
-    #         "item_value": stats,
-    #         "created": str(datetime.datetime.now()),
-    #         "modified": str(datetime.datetime.now()),
-    #         "published": False,
-    #         "comments": ""
-    #     }
-    #     return row
