@@ -1,5 +1,5 @@
-from monitor import SiteMonitor
-from kafka_producer import Kf
+from apps.producer.monitor import SiteMonitor
+from apps.producer.kafka_producer import Kf
 mon = SiteMonitor()
 kf = Kf()
 

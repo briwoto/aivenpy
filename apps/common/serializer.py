@@ -1,5 +1,6 @@
 import json
 
 
-def json_serializer(data):
-    return json.dumps(data).encode('utf-8')
+class Serializers:
+    def json_serializer(self, data):
+        return json.dumps(data).encode('utf-8')
