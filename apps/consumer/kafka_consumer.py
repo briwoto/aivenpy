@@ -1,12 +1,18 @@
-from kafka import KafkaConsumer
 import os
-from apps.common.serializer import Serializers
+from kafka import KafkaConsumer
 import consumer_queries
+from apps.common.serializer import Serializers
 serializer = Serializers()
 
 
 def consume_data():
-    consumer = KafkaConsumer(
+    consumer = get_consumer()
+    for message in consumer:
+        consumer_queries.add_site_monitor_data_to_db((message.key, message.value))
+
+
+def get_consumer():
+    return KafkaConsumer(
         'site-monitor',
         bootstrap_servers=os.environ.get("BOOTSTRAP_SERVER"),
         sasl_plain_username=os.environ.get("AV_KFUSER"),
@@ -19,8 +25,6 @@ def consume_data():
         value_deserializer=lambda v: serializer.json_deserialize(v),
         key_deserializer=lambda k: serializer.json_deserialize(k),
     )
-    for message in consumer:
-        consumer_queries.add_site_monitor_data_to_db((message.key, message.value))
 
 
 if __name__ == "__main__":

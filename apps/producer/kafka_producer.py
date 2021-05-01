@@ -1,5 +1,4 @@
 import os
-import json
 from kafka import KafkaProducer
 from apps.common.serializer import Serializers
 serializers = Serializers()
