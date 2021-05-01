@@ -6,7 +6,7 @@ import datetime
 
 class SiteMonitor:
     def __init__(self):
-        self.base_url = os.environ.get("AVBASE_URL")
+        self.base_url = os.environ.get("AV_BASE_URL")
         self.target_regex = "<button.*>?STAY UPDATED</button>"
 
     def get_stats(self):
