@@ -37,6 +37,8 @@ jobs:
         AV_KFPASSWORD: ${{secrets.AV_KFPASSWORD}}
         AV_KFPORT: ${{secrets.AV_KFPORT}}
         BOOTSTRAP_SERVER: ${{secrets.BOOTSTRAP_SERVER}}
+        CA_PEM: ${{secrets.CA_PEM}}
+        
       run: |
         echo "Running aivenpy now"
         make run_aiven
