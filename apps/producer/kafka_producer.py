@@ -17,6 +17,7 @@ class Kf:
             sasl_mechanism="PLAIN",
         )
 
-    def send_data(self, key, data):
-        self.producer.send('site-monitor', key=key, value=data)
+    def send_data(self, topic, key, data):
+        res = self.producer.send(topic, key=key, value=data)
         self.producer.flush()
+        return res

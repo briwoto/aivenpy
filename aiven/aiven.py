@@ -9,7 +9,7 @@ def aiven():
     if not stats:
         print('stats not received. exiting program')
         quit()
-    kf.send_data({"site_id": 1}, stats)
+    kf.send_data('site-monitor', {"site_id": 1}, stats)
     print("Data sent")
 
 

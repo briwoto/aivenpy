@@ -1,5 +1,4 @@
 from apps.site_monitor.monitor import SiteMonitor
-import requests
 mon = SiteMonitor()
 
 
