@@ -1,7 +1,10 @@
 import os
+import atexit
 from kafka import KafkaConsumer
-import consumer_queries
+from aiven import config
 from apps.common.serializer import Serializers
+import consumer_queries
+config.create_pem_file()
 serializer = Serializers()
 
 
@@ -28,4 +31,5 @@ def get_consumer():
 
 
 if __name__ == "__main__":
+    atexit.register(config.delete_pem_at_exit)
     consume_data()

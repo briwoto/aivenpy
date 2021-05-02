@@ -6,6 +6,9 @@ serializers = Serializers()
 
 class Kf:
     def __init__(self):
+        self.producer = None
+
+    def connect(self):
         self.producer = KafkaProducer(
             value_serializer=lambda v: serializers.json_serialize(v),
             key_serializer=lambda k: serializers.json_serialize(k),
@@ -18,6 +21,8 @@ class Kf:
         )
 
     def send_data(self, topic, key, data):
+        if not self.producer:
+            self.connect()
         res = self.producer.send(topic, key=key, value=data)
         self.producer.flush()
         return res
