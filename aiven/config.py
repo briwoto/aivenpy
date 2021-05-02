@@ -1,8 +1,9 @@
 import os
+pemfilepath = os.path.join(os.getcwd(), 'apps/common/cq.pem')
 
 
-def create_pem_file(cwd=os.getcwd()):
-    f = open(os.path.join(cwd, 'apps/common/cq.pem'), "w")
+def create_pem_file():
+    f = open(pemfilepath, "w")
     ar_pem = os.environ.get("CA_PEM").split(' ')
     pembegin = f'{ar_pem.pop(0)} {ar_pem.pop(0)}'
     pemend = f'{ar_pem.pop(-2)} {ar_pem.pop()}'
@@ -13,7 +14,4 @@ def create_pem_file(cwd=os.getcwd()):
 
 
 def delete_pem_at_exit():
-    try:
-        os.remove(os.path.join(os.getcwd(), 'apps/common/cq.pem'))
-    except FileNotFoundError:
-        os.remove(os.path.join(os.path.dirname(os.getcwd()), 'apps/common/cq.pem'))
+    open(pemfilepath, 'w').close()
