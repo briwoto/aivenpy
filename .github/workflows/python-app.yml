@@ -26,17 +26,17 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run aiven
       env:
-        PYTHONUNBUFFERED: ${{scripts.PYTHONUNBUFFERED}}
-        AVDATABASE: ${{scripts.AVDATABASE}}
-        AVHOST: ${{scripts.AVHOST}}
-        AVPORT: ${{scripts.AVPORT}}
-        AVUSER: ${{scripts.AVUSER}}
-        AVPASSWORD: ${{scripts.AVPASSWORD}}
-        AV_BASE_URL: ${{scripts.AV_BASE_URL}}
-        AV_KFUSER: ${{scripts.AV_KFUSER}}
-        AV_KFPASSWORD: ${{scripts.AV_KFPASSWORD}}
-        AV_KFPORT: ${{scripts.AV_KFPORT}}
-        BOOTSTRAP_SERVER: ${{scripts.BOOTSTRAP_SERVER}}
+        PYTHONUNBUFFERED: ${{secrets.PYTHONUNBUFFERED}}
+        AVDATABASE: ${{secrets.AVDATABASE}}
+        AVHOST: ${{secrets.AVHOST}}
+        AVPORT: ${{secrets.AVPORT}}
+        AVUSER: ${{secrets.AVUSER}}
+        AVPASSWORD: ${{secrets.AVPASSWORD}}
+        AV_BASE_URL: ${{secrets.AV_BASE_URL}}
+        AV_KFUSER: ${{secrets.AV_KFUSER}}
+        AV_KFPASSWORD: ${{secrets.AV_KFPASSWORD}}
+        AV_KFPORT: ${{secrets.AV_KFPORT}}
+        BOOTSTRAP_SERVER: ${{secrets.BOOTSTRAP_SERVER}}
       run: |
         echo "Running aivenpy now"
         make run_aiven
