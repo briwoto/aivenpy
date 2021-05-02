@@ -24,7 +24,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Set env vars
+    - name: Run aiven
       env:
         PYTHONUNBUFFERED: ${{scripts.PYTHONUNBUFFERED}}
         AVDATABASE: ${{scripts.AVDATABASE}}
@@ -37,5 +37,6 @@ jobs:
         AV_KFPASSWORD: ${{scripts.AV_KFPASSWORD}}
         AV_KFPORT: ${{scripts.AV_KFPORT}}
         BOOTSTRAP_SERVER: ${{scripts.BOOTSTRAP_SERVER}}
-    - name: Run aiven
-      run: make run_aiven
+      run: |
+        echo "Running aivenpy now"
+        make run_aiven
