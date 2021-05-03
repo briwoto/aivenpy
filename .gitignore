@@ -133,3 +133,4 @@ dmypy.json
 pyvenv.cfg
 
 */**/.DS_Store
+.DS_Store
