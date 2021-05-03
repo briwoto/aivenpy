@@ -2,10 +2,9 @@ import os
 import atexit
 from kafka import KafkaConsumer
 from aiven import config
-from apps.common.serializer import Serializers
+from apps.common import serializer
 import consumer_queries
 config.create_pem_file()
-serializer = Serializers()
 
 
 def consume_data():

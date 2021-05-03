@@ -1,7 +1,6 @@
 import psycopg2
 import os
-from db.outbox import Outbox
-outbox = Outbox()
+import logging
 
 
 class Postgres:
@@ -19,12 +18,12 @@ class Postgres:
                 password=os.environ.get("AVPASSWORD")
             )
             self.cur = self.conn.cursor()
-            print("connected to db")
+            logging.info("connected to db")
             self.cur.execute('SELECT version()')
-            print(self.cur.fetchone())
+            logging.info(self.cur.fetchone())
             return self.conn, self.cur
         except Exception as e:
-            print(f'EXCEPTION OCCURED when connecting to db\n{str(e)}')
+            logging.error(f'EXCEPTION OCCURED when connecting to db\n{str(e)}')
             return None, None
 
     def close_connection(self):
@@ -37,4 +36,4 @@ class Postgres:
         cur.execute(sql_str, val)
         con.commit()
         self.close_connection()
-        print('Data inserted')
+        logging.info('Data inserted')

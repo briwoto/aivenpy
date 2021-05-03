@@ -1,3 +1,4 @@
+import logging
 from db.postgres import Postgres
 postgres = Postgres()
 
@@ -15,5 +16,5 @@ def test_no_exception_raised_when_querying_database():
         postgres.close_connection()
         assert True
     except Exception as e:
-        print(f'UnitTest test_querying_to_database EXCEPTION OCCURED\n{str(e)}')
+        logging.info(f'UnitTest test_querying_to_database EXCEPTION OCCURED\n{str(e)}')
         assert False

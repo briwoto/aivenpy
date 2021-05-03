@@ -2,12 +2,13 @@ import requests
 import re
 import os
 import datetime
+import logging
 
 
 class SiteMonitor:
     def __init__(self):
         self.base_url = os.environ.get("AV_BASE_URL")
-        self.target_regex = "<button.*>?STAY UPDATED</button>"
+        self.target_regex = "<a.*>?Get Started</a>"
 
     def get_stats(self):
         try:
@@ -26,6 +27,5 @@ class SiteMonitor:
             }
             return data
         except Exception as e:
-            print("Unable to Connect to base_url. Exception Occured")
-            print(str(e))
+            logging.error(f'Unable to Connect to base_url. Exception Occured\n{str(e)}')
             return None
