@@ -1,11 +1,13 @@
 from apps.site_monitor.monitor import SiteMonitor
 from apps.producer.kafka_producer import Kf
+from apps.consumer import consumer_queries
+from apps.consumer import kf_consumer
 import config
 import atexit
 log = config.get_logger()
 config.create_pem_file()
 mon = SiteMonitor()
-kf = Kf()
+producer = Kf()
 
 
 def aiven():
@@ -13,8 +15,14 @@ def aiven():
     if not stats:
         log.error('stats not received. exiting program')
         quit()
-    kf.send_data('site-monitor', {"site_id": 1}, stats)
+    producer.send_data('site-monitor', {"site_id": 1}, stats)
     log.info("Data sent")
+
+
+def start_consumer():
+    msg_object = kf_consumer.get_consumer()
+    for message in msg_object:
+        consumer_queries.add_site_monitor_data_to_db((message.key, message.value))
 
 
 if __name__ == '__main__':

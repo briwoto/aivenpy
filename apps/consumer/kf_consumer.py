@@ -1,16 +1,6 @@
 import os
-import atexit
 from kafka import KafkaConsumer
-from aiven import config
 from apps.common import serializer
-import consumer_queries
-config.create_pem_file()
-
-
-def consume_data():
-    consumer = get_consumer()
-    for message in consumer:
-        consumer_queries.add_site_monitor_data_to_db((message.key, message.value))
 
 
 def get_consumer():
@@ -27,8 +17,3 @@ def get_consumer():
         value_deserializer=lambda v: serializer.json_deserialize(v),
         key_deserializer=lambda k: serializer.json_deserialize(k),
     )
-
-
-if __name__ == "__main__":
-    atexit.register(config.delete_pem_at_exit)
-    consume_data()
