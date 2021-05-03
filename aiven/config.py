@@ -1,5 +1,8 @@
 import os
+import logging
+
 pemfilepath = os.path.join(os.getcwd(), 'apps/common/cq.pem')
+loggers = {}
 
 
 def create_pem_file():
@@ -15,3 +18,15 @@ def create_pem_file():
 
 def delete_pem_at_exit():
     open(pemfilepath, 'w').close()
+
+
+def get_logger():
+    global loggers
+    if len(loggers):
+        return loggers["logger"]
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    console = logging.StreamHandler()
+    logger.addHandler(console)
+    loggers["logger"] = logger
+    return logger

@@ -1,6 +1,7 @@
 import psycopg2
 import os
-import logging
+from aiven import config
+log = config.get_logger()
 
 
 class Postgres:
@@ -18,12 +19,11 @@ class Postgres:
                 password=os.environ.get("AVPASSWORD")
             )
             self.cur = self.conn.cursor()
-            logging.info("connected to db")
             self.cur.execute('SELECT version()')
-            logging.info(self.cur.fetchone())
+            log.info(self.cur.fetchone())
             return self.conn, self.cur
         except Exception as e:
-            logging.error(f'EXCEPTION OCCURED when connecting to db\n{str(e)}')
+            log.error(f'EXCEPTION OCCURED when connecting to db\n{str(e)}')
             return None, None
 
     def close_connection(self):
@@ -36,4 +36,3 @@ class Postgres:
         cur.execute(sql_str, val)
         con.commit()
         self.close_connection()
-        logging.info('Data inserted')
