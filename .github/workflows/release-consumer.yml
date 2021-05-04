@@ -1,0 +1,39 @@
+name: Release Consumer
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Start consumer
+        env:
+          PYTHONUNBUFFERED: ${{secrets.PYTHONUNBUFFERED}}
+          AVDATABASE: ${{secrets.AVDATABASE}}
+          AVHOST: ${{secrets.AVHOST}}
+          AVPORT: ${{secrets.AVPORT}}
+          AVUSER: ${{secrets.AVUSER}}
+          AVPASSWORD: ${{secrets.AVPASSWORD}}
+          AV_BASE_URL: ${{secrets.AV_BASE_URL}}
+          AV_KFUSER: ${{secrets.AV_KFUSER}}
+          AV_KFPASSWORD: ${{secrets.AV_KFPASSWORD}}
+          AV_KFPORT: ${{secrets.AV_KFPORT}}
+          BOOTSTRAP_SERVER: ${{secrets.BOOTSTRAP_SERVER}}
+          CA_PEM: ${{secrets.CA_PEM}}
+
+        run: |
+          echo "Starting consumer now"
+          make start_consumer

@@ -8,9 +8,9 @@ aivenpy is a python-based site monitoring system that uses [Aiven for PostgreSQL
 - Receive stats from Kafka and insert to database
 
 
->   **Before proceeding futher**
+>   **Before proceeding futher** [Update as of 5.May 2021]
 >
->   The kafka producer code is already scheduled to run every 10 minutes (see https://github.com/briwoto/aivenpy/actions). So, if you plan to run this project on your local machine, you only have to start the consumer to receive the messages from kafka and insert them to the database
+>   The system as of now is entirely automated. The kafka producer is scheduled to run every 10 minutes. And the kafka consumer had been scheduled to start with the release tag *v.x.x* (see https://github.com/briwoto/aivenpy/actions). So, if you plan to run this project on your local machine, go to Github actions and stop the release build so that you can stop the consumer in the pipeline and then start on your local
 
 ## Contents
 1. [Framework](#Framework)
@@ -269,8 +269,6 @@ The tests are very basic at this point. The coverage is at a unit-test level. Be
     The logger logs the same output twice, in the console. Couldn't get time to fix this. I confirmed, however, that the data in the database is not getting duplicated. The issue is only with the logger function
 
 - Seggregate the talker module into sub-modules; where one module would be responsible to format the data and another module would be responsible to send this data to postgres.py db layer
-
-- Start the consumer automatically. As of now, we have to clone the project and start the consumer
 
 - Include a broader set of tests if I could spend more time on the project
 
