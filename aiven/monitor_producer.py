@@ -1,6 +1,4 @@
 from apps.producer.kafka_producer import Kf
-from apps.consumer import consumer_queries
-from apps.consumer import kf_consumer
 from apps.site_monitor.monitor import SiteMonitor
 import config
 import atexit
@@ -10,22 +8,24 @@ mon = SiteMonitor()
 producer = Kf()
 
 
-def aiven():
+def run_monitor():
     stats = mon.get_stats()
     if not stats:
         log.error('stats not received. exiting program')
         quit()
-    for row in stats:
+    return stats
+
+
+def run_producer(data):
+    for row in data:
         producer.send_data('site-monitor', row["key"], row["value"])
         log.info("Data sent")
 
 
-def start_consumer():
-    msg_object = kf_consumer.get_consumer()
-    for message in msg_object:
-        consumer_queries.add_site_monitor_data_to_db((message.key, message.value))
-
-
 if __name__ == '__main__':
     atexit.register(config.delete_pem_at_exit)
-    aiven()
+    sites_data = run_monitor()
+    try:
+        run_producer(sites_data)
+    except Exception as e:
+        log.error(f'Run kafka producer EXCEPTION OCCURED:\n{str(e)}')

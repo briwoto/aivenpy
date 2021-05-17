@@ -22,7 +22,7 @@ aivenpy is a python-based site monitoring system that uses [Aiven for PostgreSQL
 1. [Project Architecture](#Project-Architecture)
     1. [Details](#Details)
 1. [Code flow](#Code-flow)
-1. [Added bonus: Github actions pipeline](#Added-bonus-Github-actions-pipeline)
+1. [Github actions pipeline](#Added-bonus-Github-actions-pipeline)
 1. [Advantages of the project implementation](#Advantages-of-the-project-implementation)
 1. [Tests](#Tests)
 1. [If I had more time](#If-I-had-more-time)
@@ -159,14 +159,15 @@ If you want to run the project via Method B i.e. directly through python, first 
     ```
     pip install -r requirements.txt
     ```
-- **Run aiven** 
+- **Run site monitor & kafka producer**
+
     If you want to get fresh stats from the websites and publish to the kafka producer, run:
     ```
-    make run_aiven
+    make monitor_producer
     ```
     If you want to run kafka consumer, run:
     ```
-    make start_consumer
+    make consumer
     ```
 ## Project Architecture
 ![](architecture.png)
@@ -197,16 +198,14 @@ This layer is the backbone of the project. All logic, data extraction, manipulat
 This layer is nothing, but the connection with in-house/third-party services to get/update what we need.
 
 ## Code flow
-The entry script for the project is `aiven.py`. 
-There are two separate executions that can be done through this file:
-
-1. Execute site-monitor alongwith kafka producer
-2. Start kafka consumer
+There are two separate executions
+1. The ***site monitor*** and ***kafka producer*** are coupled into `monitor_producer.py`. 
+2. The kafka consumer is executed through `consumer.py`
 ---
 ### Site-monitor and kafka producer
 When you direcly run 
 ```
-python aiven.py
+python monitor_producer.py
 ```
 the code for `site-monitor` and `producer` is executed. The sequence of code execution is as follows:
 
@@ -214,19 +213,21 @@ the code for `site-monitor` and `producer` is executed. The sequence of code exe
    Also the `logger` library, which is used in all the programs 
    to log info/warning to the console, is initiated
 2. Then, aiven calls the `monitor` module to get the stats of the target website. 
-   The target website URL, as of now, is stored in the `AV_BASE_URL` env var
-3. Other than checking the stats, the code also checks for a regular expression 
+    
+    1. First, all the sites (whose stats we want) are fetched from the `sites` table
+    1. Then, stats are collected for each website
+    1. Other than checking the stats, the code also checks for a regular expression 
    to verify whether a particular item is present in the response.text
-4. Upon receiving the stats and the `regexp` boolean value, aiven.py sends these stats 
+    1. Upon receiving the stats and the `regexp` boolean value, aiven.py sends these stats 
    to the producer
 
 ### Start kafka consumer
-When you want to start the consumer, the `start_consumer()` function in aiven.py needs to be run separately, This is taken care by the make command:
+When you want to start the consumer, the `consumer.py` needs to be run. You may simply run the *make* command to start the consumer:
 ```
-make start_consumer
+make consumer
 ```
 
-- Once kafka consumer is called, the messages are received by *aiven.py*
+- Once kafka consumer connection is set, the messages are received by *consumer.py*
 - Each message - when received - is then formatted via `consumer_queries` module
 - Once formatted, the data is then inserted in the database
 #### **The 'talker' module**
@@ -234,7 +235,7 @@ With the intent of keeping the architecture clean and isolating each layer,
 the talker module was created. Any interaction that needs to happen with the database,
 happens via the talker module.
 
-## Added bonus: Github actions pipeline
+## Github actions pipeline
 Instead of looping with a `while` statement to get stats periodically, I set up a github actions pipeline.
 
 As of now, the site monitor is completely automated. The stats are collected every 10 minutes via the github actions pipeline. This means that, every 10 minutes:
@@ -271,8 +272,6 @@ The tests are very basic at this point. The coverage is at a unit-test level. Be
 - Seggregate the talker module into sub-modules; where one module would be responsible to format the data and another module would be responsible to send this data to postgres.py db layer
 
 - Include a broader set of tests if I could spend more time on the project
-
-- Fetch list of target websites from the DB too. I have created a table called `sites`. It contains the site `url` as well as the `regexp` that we would like to verify. In this table, we can store all the target websites and then check status of each one of them
 
 - Implement `outbox`:
 
