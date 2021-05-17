@@ -20,8 +20,11 @@ class Kf:
         )
 
     def send_data(self, topic, key, data):
-        if not self.producer:
-            self.connect()
-        res = self.producer.send(topic, key=key, value=data)
-        self.producer.flush()
-        return res
+        try:
+            if not self.producer:
+                self.connect()
+            res = self.producer.send(topic, key=key, value=data)
+            self.producer.flush()
+            return res
+        except Exception as e:
+            return e

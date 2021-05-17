@@ -18,14 +18,14 @@ def run_monitor():
 
 def run_producer(data):
     for row in data:
-        producer.send_data('site-monitor', row["key"], row["value"])
+        obj = producer.send_data('site-monitor', row["key"], row["value"])
+        if isinstance(obj, Exception):
+            log.error(f'Kafka Producer error while sending data:\n{type(obj).__name__}: {str(obj)}')
+            break
         log.info("Data sent")
 
 
 if __name__ == '__main__':
     atexit.register(config.delete_pem_at_exit)
     sites_data = run_monitor()
-    try:
-        run_producer(sites_data)
-    except Exception as e:
-        log.error(f'Run kafka producer EXCEPTION OCCURED:\n{str(e)}')
+    run_producer(sites_data)
