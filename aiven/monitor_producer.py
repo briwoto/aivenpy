@@ -26,6 +26,9 @@ def run_producer(data):
 
 
 if __name__ == '__main__':
+    config.start_db()
     atexit.register(config.delete_pem_at_exit)
+    atexit.register(config.stop_db)
     sites_data = run_monitor()
     run_producer(sites_data)
+    config.stop_db()

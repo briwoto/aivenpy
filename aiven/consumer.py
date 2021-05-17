@@ -18,6 +18,9 @@ def start_consumer():
 
 
 if __name__ == '__main__':
+    config.start_db()
     log = config.get_logger()
     atexit.register(config.delete_pem_at_exit)
+    atexit.register(config.stop_db)
     start_consumer()
+    config.stop_db()

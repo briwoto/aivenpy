@@ -12,3 +12,11 @@ def insert_data(tablename, column_names: str, ar_values: list):
 def get_sites(table_name='sites', get_columns='id, url, regexp'):
     select_clause = f'select {get_columns} from {table_name}'
     return postgres.get_data_list(select_clause)
+
+
+def connect_db():
+    postgres.connect()
+
+
+def terminate_db():
+    postgres.close_connection()

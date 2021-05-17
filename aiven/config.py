@@ -1,5 +1,6 @@
 import os
 import logging
+from db import talker
 
 pemfilepath = os.path.join(os.getcwd(), 'apps/common/ca.pem')
 loggers = {}
@@ -30,3 +31,11 @@ def get_logger():
     logger.addHandler(console)
     loggers["logger"] = logger
     return logger
+
+
+def start_db():
+    talker.connect_db()
+
+
+def stop_db():
+    talker.terminate_db()

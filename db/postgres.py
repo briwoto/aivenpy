@@ -10,21 +10,21 @@ class Postgres:
         self.cur = None
 
     def connect(self):
-        try:
-            self.conn = psycopg2.connect(
-                host=os.environ.get("DB_HOST"),
-                port=os.environ.get("DB_PORT"),
-                database=os.environ.get("DATABASE"),
-                user=os.environ.get("DB_USER"),
-                password=os.environ.get("DB_PASSWORD")
-            )
-            self.cur = self.conn.cursor()
-            self.cur.execute('SELECT version()')
-            log.info(self.cur.fetchone())
-            return self.conn, self.cur
-        except Exception as e:
-            log.error(f'EXCEPTION OCCURED when connecting to db\n{str(e)}')
-            return None, None
+        if self.conn is None:
+            try:
+                self.conn = psycopg2.connect(
+                    host=os.environ.get("DB_HOST"),
+                    port=os.environ.get("DB_PORT"),
+                    database=os.environ.get("DATABASE"),
+                    user=os.environ.get("DB_USER"),
+                    password=os.environ.get("DB_PASSWORD")
+                )
+                self.cur = self.conn.cursor()
+                self.cur.execute('SELECT version()')
+                log.info(self.cur.fetchone())
+            except Exception as e:
+                log.error(f'EXCEPTION OCCURED when connecting to db\n{str(e)}')
+                return None, None
 
     def close_connection(self):
         if self.cur:
@@ -32,12 +32,9 @@ class Postgres:
             self.conn.close()
 
     def run_sql(self, sql_str, val=None):
-        con, cur = self.connect()
-        cur.execute(sql_str, val)
-        con.commit()
-        self.close_connection()
+        self.cur.execute(sql_str, val)
+        self.conn.commit()
 
     def get_data_list(self, sql_str):
-        con, cur = self.connect()
-        cur.execute(sql_str)
-        return cur
+        self.cur.execute(sql_str)
+        return self.cur
