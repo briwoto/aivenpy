@@ -5,7 +5,6 @@ log = config.get_logger()
 
 
 def add_site_monitor_data_to_db(data):
-    print(data[1])
     key = data[0]
     val = data[1]
     query_data = {
