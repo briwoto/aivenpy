@@ -25,4 +25,4 @@ ENV CA_PEM=${CA_PEM}
 
 COPY . .
 
-CMD [ "python3", "apps/consumer/kafka_consumer.py"]
+CMD [ "python3", "aiven/consumer.py"]
