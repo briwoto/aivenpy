@@ -1,7 +1,7 @@
 import os
 import logging
 
-pemfilepath = os.path.join(os.getcwd(), 'apps/common/cq.pem')
+pemfilepath = os.path.join(os.getcwd(), 'apps/common/ca.pem')
 loggers = {}
 
 

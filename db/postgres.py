@@ -12,11 +12,11 @@ class Postgres:
     def connect(self):
         try:
             self.conn = psycopg2.connect(
-                host=os.environ.get("AVHOST"),
-                port=os.environ.get("AVPORT"),
-                database=os.environ.get("AVDATABASE"),
-                user=os.environ.get("AVUSER"),
-                password=os.environ.get("AVPASSWORD")
+                host=os.environ.get("DB_HOST"),
+                port=os.environ.get("DB_PORT"),
+                database=os.environ.get("DATABASE"),
+                user=os.environ.get("DB_USER"),
+                password=os.environ.get("DB_PASSWORD")
             )
             self.cur = self.conn.cursor()
             self.cur.execute('SELECT version()')
@@ -36,3 +36,8 @@ class Postgres:
         cur.execute(sql_str, val)
         con.commit()
         self.close_connection()
+
+    def get_data_list(self, sql_str):
+        con, cur = self.connect()
+        cur.execute(sql_str)
+        return cur

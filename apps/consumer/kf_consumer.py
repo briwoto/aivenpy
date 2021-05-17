@@ -7,10 +7,10 @@ def get_consumer():
     return KafkaConsumer(
         'site-monitor',
         bootstrap_servers=os.environ.get("BOOTSTRAP_SERVER"),
-        sasl_plain_username=os.environ.get("AV_KFUSER"),
-        sasl_plain_password=os.environ.get("AV_KFPASSWORD"),
+        sasl_plain_username=os.environ.get("KF_USER"),
+        sasl_plain_password=os.environ.get("KF_PASSWORD"),
         security_protocol="SASL_SSL",
-        ssl_cafile="apps/common/cq.pem",
+        ssl_cafile="apps/common/ca.pem",
         sasl_mechanism="PLAIN",
         group_id='monitor-group',
         auto_offset_reset='earliest',
