@@ -12,7 +12,7 @@ def run_monitor():
     stats = mon.get_stats()
     if not stats:
         log.error('stats not received. exiting program')
-        quit()
+        raise ValueError
     return stats
 
 
