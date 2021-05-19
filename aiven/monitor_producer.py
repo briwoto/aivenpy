@@ -31,4 +31,5 @@ if __name__ == '__main__':
     atexit.register(config.stop_db)
     sites_data = run_monitor()
     run_producer(sites_data)
+    producer.close_producer()
     config.stop_db()
