@@ -25,15 +25,14 @@ jobs:
       - name: Run aiven
         env:
           PYTHONUNBUFFERED: ${{secrets.PYTHONUNBUFFERED}}
-          AVDATABASE: ${{secrets.AVDATABASE}}
-          AVHOST: ${{secrets.AVHOST}}
-          AVPORT: ${{secrets.AVPORT}}
-          AVUSER: ${{secrets.AVUSER}}
-          AVPASSWORD: ${{secrets.AVPASSWORD}}
-          AV_BASE_URL: ${{secrets.AV_BASE_URL}}
-          AV_KFUSER: ${{secrets.AV_KFUSER}}
-          AV_KFPASSWORD: ${{secrets.AV_KFPASSWORD}}
-          AV_KFPORT: ${{secrets.AV_KFPORT}}
+          DATABASE: ${{secrets.DATABASE}}
+          DB_HOST: ${{secrets.DB_HOST}}
+          DB_PORT: ${{secrets.DB_PORT}}
+          DB_USER: ${{secrets.DB_USER}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          KF_USER: ${{secrets.KF_USER}}
+          KF_PASSWORD: ${{secrets.KF_PASSWORD}}
+          KF_PORT: ${{secrets.KF_PORT}}
           BOOTSTRAP_SERVER: ${{secrets.BOOTSTRAP_SERVER}}
           CA_PEM: ${{secrets.CA_PEM}}
 
